@@ -14,7 +14,7 @@ userRouter.get("/logout", logOut)
 userRouter.get("/getallproducts",getAllProducts)
 userRouter.get("/getuserdetails/:email",getUserDetails)
 userRouter.get("/getproductdetails/:id",getProductDetails)
-userRouter.post("/savecart",saveCartDetails)
+userRouter.post("/addtocart",saveCartDetails)
 
 
 

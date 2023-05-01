@@ -1,8 +1,10 @@
 const express = require("express")
 const userRouter = express.Router();
+const {userSignInValidationRules,validateSignin} = require('../config/validator')
+const {adminLogin} = require("../controller/admin-controller");
 
-// userRouter.post("/login", [userSignInValidationRules(), validateSignin], logIn)
-// userRouter.post("/signup", [userSignUpValidationRules(), validateSignup], signUp)
+userRouter.post("/login", [userSignInValidationRules(), validateSignin], adminLogin)
+
 
 
 

@@ -9,29 +9,17 @@ const signUp = async (req, res, next) => {
     const { fname, lname, email, password } = req.body;
 
     try {
-        // const existingUser = await User.findByUsername(username);
-        // if (existingUser) {
-        // return res.status(409).json({ error: 'Username already exists' });
-        // }
-
-        // const existingEmail = await User.findByEmail(email);
-        // if (existingEmail) {
-        // return res.status(409).json({ error: 'Email already exists' });
-        // }
-
+    
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.saveUserDetails(fname, lname, email, hashedPassword);
-        // if(!user){
-        //     return res.status(401).json({ message:"email already exists" });
-        // }
-
+    
         return res.status(201).json({ 
             status:200 , 
             message: "sign up successfully" 
         });
 
     } catch (err) {
-        // return next(err)
+        
         return res.status(401).json({ status:400, message: "email already exists" })
     }
 
