@@ -1,6 +1,6 @@
 const express = require("express")
 const userRouter = express.Router();
-const {signUp ,logIn ,logOut,getAllProducts,getUserDetails,getProductDetails } = require("../controller/user-contoller");
+const {signUp ,logIn ,logOut,getAllProducts,getUserDetails,getProductDetails,saveCartDetails} = require("../controller/user-contoller");
 const {userSignUpValidationRules,userSignInValidationRules,validateSignup,validateSignin} = require('../config/validator')
 const middleware = require('../middleware/middleware')
 
@@ -14,6 +14,8 @@ userRouter.get("/logout", logOut)
 userRouter.get("/getallproducts",getAllProducts)
 userRouter.get("/getuserdetails/:email",getUserDetails)
 userRouter.get("/getproductdetails/:id",getProductDetails)
+userRouter.post("/savecart",saveCartDetails)
+
 
 
 module.exports = userRouter;

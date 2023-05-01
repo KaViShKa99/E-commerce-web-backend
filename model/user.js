@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 class User {
-    static async create(fname, lname, email, password) {
+    static async saveUserDetails(fname, lname, email, password) {
         const conn = await pool.getConnection();
         try {
             const sql = `INSERT INTO users (fname, lname, email, password) VALUES (?, ?, ?, ?)`;
@@ -115,6 +115,20 @@ class User {
 
             throw err
             
+        }
+    }
+    static async saveCartDetails(obj){
+        console.log('obj ',obj);
+        const conn = await pool.getConnection();
+        try {
+            const sql = `INSERT INTO cartList (productId, productName, productPrice, productCategory,quantity,userEmail) VALUES (?, ?, ?, ?, ?, ?)`;
+            const [rows] = await conn.execute(sql, [obj.productId, obj.productName, obj.productPrice, obj.productCategory,obj.quantity,obj.userEmail]);
+            return rows;
+        } catch (err) {
+            console.error(`Error saving cart details ${obj}: ${err.message}`);
+            throw err;
+        } finally {
+            conn.release();
         }
     }
 }

@@ -20,7 +20,7 @@ const signUp = async (req, res, next) => {
         // }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create(fname, lname, email, hashedPassword);
+        const user = await User.saveUserDetails(fname, lname, email, hashedPassword);
         // if(!user){
         //     return res.status(401).json({ message:"email already exists" });
         // }
@@ -94,13 +94,13 @@ const getUserDetails = async (req, res, next) => {
         const userDetails = await User.getUserDetailsByEmail(email)
 
         if (!userDetails) {
-            return res.status(401).json({ message: 'user details not available' });
+            return res.status(401).json({ message: "cart list is not saving" });
         }
 
-        return res.status(201).json({ userDetails: userDetails })
+        return res.status(201).json({ message:"cart list saved successfully", })
 
     } catch (err) {
-
+        return res.status(401).json({ message: err });
     }
 }
 
@@ -122,4 +122,33 @@ const getProductDetails = async(req,res,next)=>{
     }
 }
 
-module.exports = {signUp ,logIn,logOut,getAllProducts,getUserDetails,getProductDetails};
+const saveCartDetails = async(req,res,next)=>{
+    const {productId,productName,productPrice,productCategory,quantity,userEmail} = req.body
+
+    const cartObject = {
+        productId,
+        productName,
+        productPrice,
+        productCategory,
+        quantity,
+        userEmail
+    }
+
+    try{
+
+        const cartDetails = await User.saveCartDetails(cartObject)
+        console.log('ssss ',);
+
+        if(!cartDetails){
+            return res.status(401).json({ message: "cart details isnt saving" });
+        }
+
+        return res.status(201).json({cartDetails:"cart details saved"})
+
+    }catch(err){
+        return res.status(401).json({message:err})
+    }
+
+}
+
+module.exports = {signUp ,logIn,logOut,getAllProducts,getUserDetails,getProductDetails,saveCartDetails};
