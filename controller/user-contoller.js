@@ -97,13 +97,13 @@ const getProductDetails = async(req,res,next)=>{
     
     try{
 
-        const userDetails = await User.getProductDetailsById(id)
+        const productDetails = await User.getProductDetailsById(id)
 
-        if(!userDetails){
+        if(!productDetails){
             return res.status(401).json({ message: 'product details not available' });
         }
 
-        return res.status(201).json({userDetails:userDetails})
+        return res.status(201).json({userDetails:productDetails})
 
     }catch(err){
         return res.status(401).json({ message: err })
@@ -111,7 +111,7 @@ const getProductDetails = async(req,res,next)=>{
 }
 
 const saveCartDetails = async(req,res,next)=>{
-    const {productId,productName,productPrice,productCategory,quantity,userEmail} = req.body
+    const {productId,productName,productPrice,productCategory,quantity,userEmail,description} = req.body
 
     const cartObject = {
         productId,
@@ -119,7 +119,8 @@ const saveCartDetails = async(req,res,next)=>{
         productPrice,
         productCategory,
         quantity,
-        userEmail
+        userEmail,
+        description
     }
 
     try{
@@ -150,7 +151,6 @@ const getCartItems = async(req,res,next)=>{
             return res.status(401).json({ message: "user cart details isn't saving" });
         }
 
-        // return res.status(201).json({cartDetails:"the user cart shows"})
         return res.status(201).json({cartDetails:userCartList})
 
     }catch(err){
@@ -158,6 +158,24 @@ const getCartItems = async(req,res,next)=>{
     }
 }
 
+const cartItemDelete = async(req, res, next) => {
+    const { email, id } = req.body;
+  
+    try {
+      const deletedCartItem = await User.cartItemDelete(email, id);
 
 
-module.exports = {signUp ,logIn,logOut,getAllProducts,getUserDetails,getProductDetails,saveCartDetails,getCartItems};
+      if (!deletedCartItem) {
+        return res.status(401).json({ message: "Unable to delete cart item" });
+      }
+  
+      return res.status(201).json({ message: "Cart item deleted successfully" });
+    } catch(err) {
+      return res.status(401).json({ message: "Something went wrong", error: err });
+    }
+  }
+  
+
+
+
+module.exports = {signUp ,logIn,logOut,getAllProducts,getUserDetails,getProductDetails,saveCartDetails,getCartItems,cartItemDelete};

@@ -118,11 +118,10 @@ class User {
         }
     }
     static async saveCartDetails(obj){
-        console.log('obj ',obj);
         const conn = await pool.getConnection();
         try {
-            const sql = `INSERT INTO cartList (productId, productName, productPrice, productCategory,quantity,userEmail) VALUES (?, ?, ?, ?, ?, ?)`;
-            const [rows] = await conn.execute(sql, [obj.productId, obj.productName, obj.productPrice, obj.productCategory,obj.quantity,obj.userEmail]);
+            const sql = `INSERT INTO cartList (productId, productName, productPrice, productCategory,quantity,userEmail,description) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+            const [rows] = await conn.execute(sql, [obj.productId, obj.productName, obj.productPrice, obj.productCategory,obj.quantity,obj.userEmail,obj.description]);
             return rows;
         } catch (err) {
             console.error(`Error saving cart details ${obj}: ${err.message}`);
@@ -148,6 +147,18 @@ class User {
             
         }
     }
+
+    static async cartItemDelete(email, id) {
+        const conn = await pool.getConnection();
+        try {
+          const sql = `DELETE FROM cartList WHERE userEmail = ? AND productId = ?`;
+          const [result] = await conn.execute(sql, [email, id]);
+          return result.affectedRows > 0;
+        } catch (err) {
+          throw err;
+        } 
+      }
+      
 }
 
 module.exports = User;
