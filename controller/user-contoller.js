@@ -125,8 +125,7 @@ const saveCartDetails = async(req,res,next)=>{
     try{
 
         const cartDetails = await User.saveCartDetails(cartObject)
-        console.log('ssss ',);
-
+        
         if(!cartDetails){
             return res.status(401).json({ message: "cart details isnt saving" });
         }
@@ -139,4 +138,26 @@ const saveCartDetails = async(req,res,next)=>{
 
 }
 
-module.exports = {signUp ,logIn,logOut,getAllProducts,getUserDetails,getProductDetails,saveCartDetails};
+const getCartItems = async(req,res,next)=>{
+
+    const {email} = req.params
+
+    try{
+
+        const userCartList = await User.getUserCartList(email)
+        
+        if(!userCartList){
+            return res.status(401).json({ message: "user cart details isn't saving" });
+        }
+
+        // return res.status(201).json({cartDetails:"the user cart shows"})
+        return res.status(201).json({cartDetails:userCartList})
+
+    }catch(err){
+        return res.status(401).json({message:err})
+    }
+}
+
+
+
+module.exports = {signUp ,logIn,logOut,getAllProducts,getUserDetails,getProductDetails,saveCartDetails,getCartItems};

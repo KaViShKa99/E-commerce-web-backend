@@ -131,6 +131,23 @@ class User {
             conn.release();
         }
     }
+
+    static async getUserCartList(email){
+        
+        const conn = await pool.getConnection();
+        try{
+
+            const sql = `SELECT * FROM cartList WHERE userEmail = ? `;
+            const [rows] = await conn.execute(sql, [email]);
+
+            return rows
+
+        }catch(err){
+
+            throw err
+            
+        }
+    }
 }
 
 module.exports = User;
