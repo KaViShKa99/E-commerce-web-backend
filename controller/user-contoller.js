@@ -82,10 +82,10 @@ const getUserDetails = async (req, res, next) => {
         const userDetails = await User.getUserDetailsByEmail(email)
 
         if (!userDetails) {
-            return res.status(401).json({ message: "cart list is not saving" });
+            return res.status(401).json({ message: "user details isnt available" });
         }
 
-        return res.status(201).json({ message:"cart list saved successfully", })
+        return res.status(201).json({ message:userDetails })
 
     } catch (err) {
         return res.status(401).json({ message: err });

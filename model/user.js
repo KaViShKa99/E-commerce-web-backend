@@ -89,7 +89,7 @@ class User {
 
         try {
 
-            const sql = `SELECT * FROM products WHERE email = ? `;
+            const sql = `SELECT fname,lname,email FROM users WHERE email = ? `;
             const [rows] = await conn.execute(sql, [email]);
 
             return rows
