@@ -17,20 +17,6 @@ class User {
         }
     }
 
-    // static async findByUsername(username) {
-    //     const conn = await pool.getConnection();
-    //     try {
-    //       const sql = `SELECT * FROM users WHERE username = ?`;
-    //       const [rows, fields] = await conn.execute(sql, [username]);
-    //       return rows[0];
-    //     } catch (err) {
-    //       console.error(`Error finding user ${username}: ${err.message}`);
-    //       throw err;
-    //     } finally {
-    //       conn.release();
-    //     }
-    //   }
-
     static async findByEmailAndPassword(email, password) {
         const conn = await pool.getConnection();
         try {
@@ -120,10 +106,7 @@ class User {
     static async saveCartDetails(obj){
         const conn = await pool.getConnection();
         try {
-            // const sql = `INSERT INTO cartList (productId, productName, productPrice, productCategory,quantity,userEmail,description) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-            // const [rows] = await conn.execute(sql, [obj.productId, obj.productName, obj.productPrice, obj.productCategory,obj.quantity,obj.userEmail,obj.description]);
-            // return rows;
-
+      
             const sql = `INSERT INTO cartList (productId, productName, productPrice, productCategory,quantity,userEmail,description)
                  VALUES (?, ?, ?, ?, ?, ?, ?)
                  ON DUPLICATE KEY UPDATE 

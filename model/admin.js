@@ -34,6 +34,22 @@ class Admin {
         return token;
     }
 
+    static async saveProductDetails(obj){
+        const conn = await pool.getConnection();
+        
+        try {
+    
+            const sql = `INSERT INTO products (name, price, description, category)
+            VALUES (?, ?, ?, ?)`;
+            const [rows] = await conn.execute(sql, [obj.name, obj.price, obj.description, obj.category]);
+            return rows;
+
+        } catch (err) {
+            console.error(`Error saving product details  ${obj}: ${err.message}`);
+            throw err;
+
+        }
+    }
 
 }
 

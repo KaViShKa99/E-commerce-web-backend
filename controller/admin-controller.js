@@ -26,4 +26,29 @@ const adminLogin =  async (req,res,next)=>{
     }
 }
 
-module.exports = {adminLogin}
+const addProducts = async (req,res,next)=>{
+
+    const {name,price,description,category} = req.body
+    const productObject = {
+        name,
+        price,
+        description,
+        category
+    }
+
+    try {
+
+        const product = await Admin.saveProductDetails(productObject)
+
+        if (!product) {
+            return res.status(401).json({ status:400,message: 'product details isnt saving' });
+        }
+
+        return res.status(201).json({cartDetails:"product details saved"})
+
+    }catch(err){
+        return res.status(401).json({message:err})
+    }
+}
+
+module.exports = {adminLogin,addProducts}

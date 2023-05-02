@@ -5,7 +5,6 @@ const {userSignUpValidationRules,userSignInValidationRules,validateSignup,valida
 
 
 
-
 userRouter.post("/login", [userSignInValidationRules(), validateSignin], logIn)
 userRouter.post("/signup", [userSignUpValidationRules(), validateSignup], signUp)
 userRouter.get("/logout", logOut)
