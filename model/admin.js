@@ -51,6 +51,86 @@ class Admin {
         }
     }
 
+    static async productItemDelete(id){
+        const conn = await pool.getConnection();
+
+        try {
+          const sql = `DELETE FROM products WHERE id = ? `;
+          const [result] = await conn.execute(sql, [id]);
+
+          return result.affectedRows > 0;
+        } catch (err) {
+
+          throw err;
+        } 
+    }
+
+    static async productItemUpdate(productObject){
+
+        const conn = await pool.getConnection();
+
+        try {
+            const { id, name, price, description, category } = productObject;
+
+            const sql = `UPDATE products SET name=?, price=?, description=?, category=? WHERE id=?`;
+            const [result] = await conn.execute(sql, [name, price, description, category, id]);
+            return result.affectedRows > 0;
+
+          } catch (err) {
+
+            throw err;
+          }
+    }
+
+    static async getAllProductsDetails(){
+        const conn = await pool.getConnection();
+        try {
+
+            const sql = `SELECT * FROM products `;
+            const [rows] = await conn.execute(sql, []);
+
+            return rows
+
+        } catch (err) {
+
+            throw err
+
+        }
+
+    }
+
+    static async getAllUserDetails(){
+        const conn = await pool.getConnection();
+        try {
+
+            const sql = `SELECT fname,lname,email FROM users `;
+            const [rows] = await conn.execute(sql, []);
+
+            return rows
+
+        } catch (err) {
+
+            throw err
+
+        }
+    }
+
+    static async getCartListDetails(){
+        const conn = await pool.getConnection();
+        try {
+
+            const sql = `SELECT * FROM cartlist `;
+            const [rows] = await conn.execute(sql, []);
+
+            return rows
+
+        } catch (err) {
+
+            throw err
+
+        }
+    }
+
 }
 
 module.exports = Admin

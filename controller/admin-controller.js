@@ -1,5 +1,3 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const Admin = require('../model/admin');
 
 const adminLogin =  async (req,res,next)=>{
@@ -51,4 +49,101 @@ const addProducts = async (req,res,next)=>{
     }
 }
 
-module.exports = {adminLogin,addProducts}
+const productItemDelete =  async(req,res,next)=>{
+    const { id } = req.body;
+  
+    try {
+      const deletedCartProductItem = await Admin.productItemDelete(id);
+
+
+      if (!deletedCartProductItem) {
+        return res.status(401).json({ message: "Unable to delete product item" });
+      }
+  
+      return res.status(201).json({ message: "product item deleted successfully" });
+    } catch(err) {
+      return res.status(401).json({ message: "Something went wrong", error: err });
+    }
+}
+
+const updateProductItem = async(req,res,next)=>{
+    const {id,name,price,description,category} = req.body
+    const productObject = {
+        id,
+        name,
+        price,
+        description,
+        category
+    }
+  
+    try {
+      const updateProductItem = await Admin.productItemUpdate(productObject);
+
+
+      if (!updateProductItem) {
+        return res.status(401).json({ message: "Unable to update product item" });
+      }
+  
+      return res.status(201).json({ message: "product item update successfully" });
+    } catch(err) {
+      return res.status(401).json({ message: "Something went wrong", error: err });
+    }
+}
+
+const getAllProducts = async(req,res,next)=>{
+    try {
+
+        const products = await Admin.getAllProductsDetails()
+
+        if(!products){
+            return res.status(401).json({ message: 'product isnt available' });
+        }
+
+        return res.status(201).json({ productList: products })
+
+
+    } catch (err) {
+        
+        return next(err);
+    }
+
+}
+
+const getAllUsers =  async(req,res,next)=>{
+    try {
+
+        const users = await Admin.getAllUserDetails()
+
+        if(!users){
+            return res.status(401).json({ message: 'user isnt available' });
+        }
+
+        return res.status(201).json({ userList: users })
+
+
+    } catch (err) {
+        
+        return next(err);
+    }
+
+}
+
+const getCartList = async(req,res,next)=>{
+    try {
+
+        const cartList = await Admin.getCartListDetails()
+
+        if(!cartList){
+            return res.status(401).json({ message: 'cart list isnt available' });
+        }
+
+        return res.status(201).json({ cartList: cartList })
+
+
+    } catch (err) {
+        
+        return next(err);
+    }
+}
+
+module.exports = {adminLogin,addProducts,productItemDelete,updateProductItem,getAllProducts,getAllUsers,getCartList}

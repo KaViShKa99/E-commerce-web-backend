@@ -98,8 +98,9 @@ const getProductDetails = async(req,res,next)=>{
     try{
 
         const productDetails = await User.getProductDetailsById(id)
+        console.log('sss ',productDetails.length);
 
-        if(!productDetails){
+        if(productDetails.length === 0){
             return res.status(401).json({ message: 'product details not available' });
         }
 
