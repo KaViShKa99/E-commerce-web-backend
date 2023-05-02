@@ -45,7 +45,7 @@ class User {
         }
     }
     static async generateAuthToken(email) {
-        const token = jwt.sign({ email: email }, 'your-secret-key');
+        const token = jwt.sign({ email: email }, process.env.TOKEN_SECRET_KEY);
         return token;
     }
 
@@ -152,6 +152,23 @@ class User {
           throw err;
         } 
       }
+
+    static async getUserStatus(email){
+        const conn = await pool.getConnection();
+
+        try {
+
+            const sql = `SELECT isAdmin FROM users WHERE email = ? `;
+            const [rows] = await conn.execute(sql, [email]);
+
+            return rows[0]
+
+        } catch (err) {
+
+            throw err
+
+        }
+    }
       
 }
 

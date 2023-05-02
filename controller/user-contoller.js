@@ -38,11 +38,16 @@ const logIn = async (req, res, next) => {
         }
 
         const token = await User.generateAuthToken(email)
+        const userStatus = await User.getUserStatus(email)
+
+        console.log('ssd ',userStatus.isAdmin);
+
         return res.status(201).json({ 
             status:200,
             message:"login successful!",
             token: token ,
-            email:email
+            email:email,
+            isAdmin:userStatus.isAdmin
         });
 
     } catch (err) {

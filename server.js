@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require('express-session');
+require('dotenv').config();
 const cors = require('cors');
 const userRouter = require('./routes/userRouter')
 const adminRouter = require('./routes/adminRouter')
@@ -13,9 +14,10 @@ app.use("/user", userRouter)
 app.use("/admin", adminRouter)
 
 app.use(session({
-  secret: 'your-secret-key',
+  secret: process.env.SERVER_SECRET_KEY,
   resave: false,
   saveUninitialized: false
 }));
 
-app.listen(5000, () => console.log("app started at 5000..."));
+
+app.listen(process.env.PORT, () => console.log("app started at 5000..."));
