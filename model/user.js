@@ -120,8 +120,19 @@ class User {
     static async saveCartDetails(obj){
         const conn = await pool.getConnection();
         try {
-            const sql = `INSERT INTO cartList (productId, productName, productPrice, productCategory,quantity,userEmail,description) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-            const [rows] = await conn.execute(sql, [obj.productId, obj.productName, obj.productPrice, obj.productCategory,obj.quantity,obj.userEmail,obj.description]);
+            // const sql = `INSERT INTO cartList (productId, productName, productPrice, productCategory,quantity,userEmail,description) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+            // const [rows] = await conn.execute(sql, [obj.productId, obj.productName, obj.productPrice, obj.productCategory,obj.quantity,obj.userEmail,obj.description]);
+            // return rows;
+
+            const sql = `INSERT INTO cartList (productId, productName, productPrice, productCategory,quantity,userEmail,description)
+                 VALUES (?, ?, ?, ?, ?, ?, ?)
+                 ON DUPLICATE KEY UPDATE 
+                 productName = VALUES(productName), 
+                 productPrice = VALUES(productPrice),
+                 productCategory = VALUES(productCategory),
+                 quantity = VALUES(quantity),
+                 description = VALUES(description)`;
+            const [rows] = await conn.execute(sql, [obj.productId, obj.productName, obj.productPrice, obj.productCategory, obj.quantity, obj.userEmail, obj.description]);
             return rows;
         } catch (err) {
             console.error(`Error saving cart details ${obj}: ${err.message}`);
