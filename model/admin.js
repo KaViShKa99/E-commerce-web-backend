@@ -34,11 +34,11 @@ class Admin {
         return token;
     }
 
-    static async saveProductDetails(obj){
+    static async saveProductDetails(obj) {
         const conn = await pool.getConnection();
-        
+
         try {
-    
+
             const sql = `INSERT INTO products (name, price, description, category)
             VALUES (?, ?, ?, ?)`;
             const [rows] = await conn.execute(sql, [obj.name, obj.price, obj.description, obj.category]);
@@ -51,21 +51,21 @@ class Admin {
         }
     }
 
-    static async productItemDelete(id){
+    static async productItemDelete(id) {
         const conn = await pool.getConnection();
 
         try {
-          const sql = `DELETE FROM products WHERE id = ? `;
-          const [result] = await conn.execute(sql, [id]);
+            const sql = `DELETE FROM products WHERE id = ? `;
+            const [result] = await conn.execute(sql, [id]);
 
-          return result.affectedRows > 0;
+            return result.affectedRows > 0;
         } catch (err) {
 
-          throw err;
-        } 
+            throw err;
+        }
     }
 
-    static async productItemUpdate(productObject){
+    static async productItemUpdate(productObject) {
 
         const conn = await pool.getConnection();
 
@@ -76,13 +76,13 @@ class Admin {
             const [result] = await conn.execute(sql, [name, price, description, category, id]);
             return result.affectedRows > 0;
 
-          } catch (err) {
+        } catch (err) {
 
             throw err;
-          }
+        }
     }
 
-    static async getAllProductsDetails(){
+    static async getAllProductsDetails() {
         const conn = await pool.getConnection();
         try {
 
@@ -99,7 +99,7 @@ class Admin {
 
     }
 
-    static async getAllUserDetails(){
+    static async getAllUserDetails() {
         const conn = await pool.getConnection();
         try {
 
@@ -115,7 +115,7 @@ class Admin {
         }
     }
 
-    static async getCartListDetails(){
+    static async getCartListDetails() {
         const conn = await pool.getConnection();
         try {
 
@@ -131,20 +131,21 @@ class Admin {
         }
     }
 
-    static async userDetailsUpdate(userObject){
+    static async userDetailsUpdate(userObject) {
         const conn = await pool.getConnection();
 
         try {
-            const { fname, lname, email, password, isAdmin } = userObject;
+            const { fname, lname, email, isAdmin } = userObject;
+            console.log(userObject)
 
-            const sql = `UPDATE users SET fname=?, lname=?, email=?, password=?, isAdmin=? WHERE email=?`;
-            const [result] = await conn.execute(sql, [fname, lname, email, password, isAdmin, email ]);
+            const sql = `UPDATE users SET fname=?, lname=?, email=?, isAdmin=? WHERE email=?`;
+            const [result] = await conn.execute(sql, [fname, lname, email, isAdmin, email]);
             return result.affectedRows > 0;
 
-          } catch (err) {
+        } catch (err) {
 
             throw err;
-          }
+        }
     }
 
 
