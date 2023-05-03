@@ -103,7 +103,7 @@ class Admin {
         const conn = await pool.getConnection();
         try {
 
-            const sql = `SELECT fname,lname,email FROM users `;
+            const sql = `SELECT fname,lname,email,isAdmin FROM users `;
             const [rows] = await conn.execute(sql, []);
 
             return rows
