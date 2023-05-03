@@ -136,7 +136,6 @@ class Admin {
 
         try {
             const { fname, lname, email, isAdmin } = userObject;
-            console.log(userObject)
 
             const sql = `UPDATE users SET fname=?, lname=?, email=?, isAdmin=? WHERE email=?`;
             const [result] = await conn.execute(sql, [fname, lname, email, isAdmin, email]);
