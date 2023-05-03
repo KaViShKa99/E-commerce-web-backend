@@ -131,6 +131,23 @@ class Admin {
         }
     }
 
+    static async userDetailsUpdate(userObject){
+        const conn = await pool.getConnection();
+
+        try {
+            const { fname, lname, email, password, isAdmin } = userObject;
+
+            const sql = `UPDATE users SET fname=?, lname=?, email=?, password=?, isAdmin=? WHERE email=?`;
+            const [result] = await conn.execute(sql, [fname, lname, email, password, isAdmin, email ]);
+            return result.affectedRows > 0;
+
+          } catch (err) {
+
+            throw err;
+          }
+    }
+
+
 }
 
 module.exports = Admin

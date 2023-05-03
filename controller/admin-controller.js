@@ -146,4 +146,30 @@ const getCartList = async(req,res,next)=>{
     }
 }
 
-module.exports = {adminLogin,addProducts,productItemDelete,updateProductItem,getAllProducts,getAllUsers,getCartList}
+const updateUserDetails = async(req,res,next)=>{
+    const {fname,lname,email,password,isAdmin} = req.body
+    const userObject = {
+        fname,
+        lname,
+        email,
+        password,
+        isAdmin
+    }
+  
+    try {
+      const userDetails = await Admin.userDetailsUpdate(userObject);
+
+
+      if (!userDetails) {
+        return res.status(401).json({ message: "Unable to update user details" });
+      }
+  
+      return res.status(201).json({ message: "user details update successfully" });
+    } catch(err) {
+      return res.status(401).json({ message: "Something went wrong", error: err });
+    }
+}
+
+
+
+module.exports = {adminLogin,addProducts,productItemDelete,updateProductItem,getAllProducts,getAllUsers,getCartList,updateUserDetails}
